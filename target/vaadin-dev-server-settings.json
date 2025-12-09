@@ -1,0 +1,17 @@
+{
+  "frontendFolder": "C:/Users/Sebastian/Downloads/tejo_bar (2)/tejo_bar/tejo_bar/./frontend",
+  "themeFolder": "themes",
+  "themeResourceFolder": "C:/Users/Sebastian/Downloads/tejo_bar (2)/tejo_bar/tejo_bar/./frontend/generated/jar-resources",
+  "staticOutput": "C:/Users/Sebastian/Downloads/tejo_bar (2)/tejo_bar/tejo_bar/target/classes/META-INF/VAADIN/webapp/VAADIN/static",
+  "generatedFolder": "generated",
+  "statsOutput": "C:\\Users\\Sebastian\\Downloads\\tejo_bar (2)\\tejo_bar\\tejo_bar\\target\\classes\\META-INF\\VAADIN\\config",
+  "frontendBundleOutput": "C:\\Users\\Sebastian\\Downloads\\tejo_bar (2)\\tejo_bar\\tejo_bar\\target\\classes\\META-INF\\VAADIN\\webapp",
+  "devBundleOutput": "C:/Users/Sebastian/Downloads/tejo_bar (2)/tejo_bar/tejo_bar/target/dev-bundle/webapp",
+  "devBundleStatsOutput": "C:/Users/Sebastian/Downloads/tejo_bar (2)/tejo_bar/tejo_bar/target/dev-bundle/config",
+  "jarResourcesFolder": "C:/Users/Sebastian/Downloads/tejo_bar (2)/tejo_bar/tejo_bar/./frontend/generated/jar-resources",
+  "themeName": "",
+  "clientServiceWorkerSource": "C:\\Users\\Sebastian\\Downloads\\tejo_bar (2)\\tejo_bar\\tejo_bar\\target\\sw.ts",
+  "pwaEnabled": false,
+  "offlineEnabled": false,
+  "offlinePath": "'offline.html'"
+}

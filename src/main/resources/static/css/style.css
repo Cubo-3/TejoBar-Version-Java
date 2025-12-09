@@ -1,0 +1,242 @@
+body {
+    overflow-x: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fdf6e3;
+    color: #333;
+}
+
+#wrapper {
+    display: flex;
+}
+
+#sidebar-wrapper {
+    min-height: 100vh;
+    margin-left: -15rem;
+    transition: margin .25s ease-out;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    background-color: #5d4037 !important;
+    border-right: 2px solid #8d6e63 !important;
+}
+.list-group-item.active{
+    color: #333;
+}
+
+#sidebar-wrapper .sidebar-heading {
+    padding: 0.875rem 1.25rem;
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #d7ccc8;
+    background-color: #5d4037;
+    border-bottom: 2px solid #8d6e63;
+}
+
+#sidebar-wrapper .list-group {
+    width: 15rem;
+}
+
+#sidebar-wrapper .list-group-item {
+    color: #d7ccc8;
+    background-color: #5d4037;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    border: none !important;
+}
+
+#sidebar-wrapper .list-group-item:hover {
+    background-color: #8d6e63 !important;
+    color: #fff !important;
+    transform: translateX(5px);
+}
+
+#sidebar-wrapper .list-group-item.active {
+    background-color: #8d6e63 !important;
+    color: #fff !important;
+    font-weight: bold;
+    border: none !important;
+}
+
+#sidebar-wrapper .list-group-item .fas {
+    font-size: 1.1rem;
+}
+
+#page-content-wrapper {
+    min-width: 100vw;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    margin-left: 0;
+}
+
+@media (min-width: 768px) {
+    #sidebar-wrapper {
+        margin-left: 0;
+    }
+
+    #page-content-wrapper {
+        min-width: 0;
+        width: 100%;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        margin-left: -15rem;
+    }
+}
+
+.card {
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #fffefc;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.card-body {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1.25rem;
+}
+
+.card .card-body .text-xs {
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.card .card-body .text-uppercase {
+    text-transform: uppercase!important;
+}
+
+.card .card-body .font-weight-bold {
+    font-weight: 700!important;
+}
+
+.card .card-body .text-primary {
+    color: #4e73df!important;
+}
+
+.card .card-body .text-success {
+    color: #1cc88a!important;
+}
+
+.card .card-body .text-info {
+    color: #36b9cc!important;
+}
+
+.card .card-body .text-warning {
+    color: #f6c23e!important;
+}
+
+.card.border-left-primary {
+    border-left: .25rem solid #4e73df!important;
+}
+
+.card.border-left-success {
+    border-left: .25rem solid #1cc88a!important;
+}
+
+.card.border-left-info {
+    border-left: .25rem solid #36b9cc!important;
+}
+
+.card.border-left-warning {
+    border-left: .25rem solid #f6c23e!important;
+}
+
+.shadow {
+    box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15)!important;
+}
+
+.card .card-body .col-auto .fas {
+    color: rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58,59,69,.05);
+    background-color: #5d4037 !important;
+    border-bottom: 2px solid #8d6e63 !important;
+}
+
+.navbar .btn-primary,
+.navbar .btn {
+    background-color: #8d6e63 !important;
+    color: #fff !important;
+    border: none !important;
+    font-weight: bold;
+}
+
+.navbar .btn-primary:hover,
+.navbar .btn:hover {
+    background-color: #a1887f !important;
+}
+
+.login-body {
+    background-color: #f8f9fa;
+}
+
+.card-header.bg-primary {
+    background-color: #007bff !important;
+}
+
+.card-header h3 {
+    font-weight: bold;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #595f5f;
+  color: white;
+  font-size: 16px;
+  margin-top: 40px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 14px 20px;
+  text-align: left;
+  border-bottom: 1px solid #444;
+}
+
+th {
+  background-color: #141414;
+  color: #ffa500;
+  font-weight: bold;
+}
+
+.btn-eliminar {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-eliminar:hover {
+  background-color: #d93636;
+}
+
+.btn-comprar-carrito {
+  background-color: #ffa500;
+  color: #000;
+  padding: 12px 28px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-comprar-carrito:hover {
+  background-color: #e69500;
+}
+

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title th:text="${title != null ? title + ' - TejoBar' : 'TejoBar - Dashboard'}">TejoBar - Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/newstyle.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap" rel="stylesheet" />
+    <th:block th:fragment="styles"></th:block>
+</head>
+<body style="font-family: 'Segoe UI', sans-serif; background-color: #fdf6e3; color: #333;">
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper" style="background-color: #5d4037 !important; border-right: 2px solid #8d6e63 !important;">
+        <div class="sidebar-heading" style="background-color: #5d4037 !important; color: #d7ccc8 !important; border-bottom: 2px solid #8d6e63 !important; font-size: 28px; font-weight: bold;">TejoBar</div>
+        <div class="list-group list-group-flush">
+            <a th:href="@{/dashboard}" class="list-group-item list-group-item-action" style="background-color: #5d4037 !important; color: #d7ccc8 !important; border: none !important;">
+                <i class="fas fa-fw fa-tachometer-alt mr-2"></i>Dashboard
+            </a>
+
+            <a th:href="@{/productos}" class="list-group-item list-group-item-action" style="background-color: #5d4037 !important; color: #d7ccc8 !important; border: none !important;">
+                <i class="fas fa-fw fa-shopping-cart mr-2"></i>Productos Apartados
+            </a>
+            
+            <a th:href="@{/equipos}" class="list-group-item list-group-item-action" style="background-color: #5d4037 !important; color: #d7ccc8 !important; border: none !important;" sec:authorize="hasAnyRole('ADMIN', 'JUGADOR')">
+                <i class="fas fa-fw fa-users mr-2"></i>Equipos
+            </a>
+
+            <a th:href="@{/jugadores}" class="list-group-item list-group-item-action" style="background-color: #5d4037 !important; color: #d7ccc8 !important; border: none !important;" sec:authorize="hasRole('ADMIN')">
+                <i class="fas fa-fw fa-user-cog mr-2"></i>Jugadores
+            </a>
+
+            <a th:href="@{/partidos}" class="list-group-item list-group-item-action" style="background-color: #5d4037 !important; color: #d7ccc8 !important; border: none !important;">
+                <i class="fas fa-fw fa-trophy mr-2"></i>Partidos
+            </a>
+
+            <a th:href="@{/torneos}" class="list-group-item list-group-item-action" style="background-color: #5d4037 !important; color: #d7ccc8 !important; border: none !important;">
+                <i class="fas fa-fw fa-trophy mr-2"></i>Torneos
+            </a>
+
+            <a th:href="@{/canchas}" class="list-group-item list-group-item-action" style="background-color: #5d4037 !important; color: #d7ccc8 !important; border: none !important;">
+                <i class="fas fa-fw fa-map-marker-alt mr-2"></i>Canchas
+            </a>
+
+            <a th:href="@{/perfil}" class="list-group-item list-group-item-action" style="background-color: #5d4037 !important; color: #d7ccc8 !important; border: none !important;">
+                <i class="fas fa-fw fa-user mr-2"></i>Mi Perfil
+            </a>
+
+            <a th:href="@{/}" class="list-group-item list-group-item-action" style="background-color: #5d4037 !important; color: #d7ccc8 !important; border: none !important;">
+                <i class="fas fa-fw fa-home mr-2"></i>Inicio
+            </a>
+        </div>
+    </div>
+
+    <!-- /Sidebar -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <nav class="navbar navbar-expand-lg border-bottom" style="background-color: #5d4037 !important; border-bottom: 2px solid #8d6e63 !important;">
+            <button class="btn" id="menu-toggle" style="background-color: #8d6e63 !important; color: #fff !important; border: none !important; font-weight: bold;"><i class="fas fa-bars"></i></button>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" style="color: #d7ccc8 !important; font-weight: bold;">
+                            <i class="fas fa-user-circle mr-1"></i>
+                            <span th:text="${nombreUsuario != null ? nombreUsuario : principal.username}">Usuario</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" th:href="@{/perfil}"><i class="fas fa-user mr-1"></i> Perfil</a>
+                            <div class="dropdown-divider"></div>
+                            <form method="POST" th:action="@{/logout}" style="display: inline;">
+                                <button type="submit" class="dropdown-item" style="border: none; background: none; width: 100%; text-align: left;">
+                                    <i class="fas fa-sign-out-alt mr-1"></i> Cerrar Sesión
+                                </button>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container-fluid" style="background-color: #fdf6e3; min-height: calc(100vh - 56px); padding: 20px;">
+            <!-- Content will be inserted here by templates extending this layout -->
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap/4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>
+<th:block th:fragment="scripts"></th:block>
+</body>
+</html>
+
