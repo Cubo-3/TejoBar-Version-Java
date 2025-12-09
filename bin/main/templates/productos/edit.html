@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Producto - TejoBar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+        }
+        .header {
+            background: #667eea;
+            color: white;
+            padding: 1rem 2rem;
+        }
+        .container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .form-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 1rem;
+        }
+        .btn-secondary {
+            background: #6c757d;
+        }
+        .alert {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📦 Editar Producto</h1>
+    </div>
+    
+    <div class="container">
+        <div class="form-card">
+            <div th:if="${error}" class="alert" th:text="${error}"></div>
+            
+            <form th:action="@{/productos/{id}(id=${producto.idProducto})}" th:object="${producto}" method="post">
+                <div class="form-group">
+                    <label>Nombre:</label>
+                    <input type="text" th:field="*{nombre}" required>
+                </div>
+                <div class="form-group">
+                    <label>Precio:</label>
+                    <input type="number" th:field="*{precio}" step="0.01" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label>Stock:</label>
+                    <input type="number" th:field="*{stock}" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label>Fecha de Vencimiento:</label>
+                    <input type="date" th:field="*{fechaVencimiento}" required>
+                </div>
+                <div class="form-group">
+                    <label>URL Imagen:</label>
+                    <input type="text" th:field="*{urlImg}">
+                </div>
+                <div>
+                    <button type="submit" class="btn">Actualizar Producto</button>
+                    <a th:href="@{/productos}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+

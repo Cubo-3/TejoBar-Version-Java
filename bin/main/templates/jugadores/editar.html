@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Jugador - TejoBar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            color: #667eea;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 600;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        input:disabled {
+            background: #f5f5f5;
+            cursor: not-allowed;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-right: 0.5rem;
+        }
+
+        .btn:hover {
+            background: #5568d3;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .actions {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid #eee;
+        }
+
+        .back-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>✏️ Editar Jugador</h1>
+        <a th:href="@{/jugadores}" class="back-link">← Volver a Lista</a>
+    </div>
+
+    <div class="container">
+        <!-- Formulario de edición -->
+        <form th:action="@{/jugadores/editar/{id}(id=${jugador.idPersona})}" method="post" th:object="${jugador}">
+            <!-- Nombre -->
+            <div class="form-group">
+                <label for="nombre">Nombre Completo</label>
+                <input type="text" id="nombre" name="nombre" th:value="${jugador.nombre}" required>
+            </div>
+
+            <!-- Correo -->
+            <div class="form-group">
+                <label for="correo">Correo Electrónico</label>
+                <input type="email" id="correo" name="correo" th:value="${jugador.correo}">
+            </div>
+
+            <!-- Teléfono -->
+            <div class="form-group">
+                <label for="numero">Teléfono</label>
+                <input type="tel" id="numero" name="numero" th:value="${jugador.numero}">
+            </div>
+
+            <!-- RUT -->
+            <div class="form-group">
+                <label for="rut">RUT / Cédula</label>
+                <input type="text" id="rut" name="rut" th:value="${jugador.rut}">
+            </div>
+
+            <!-- Estado -->
+            <div class="form-group">
+                <label>Estado</label>
+                <div>
+                    <label style="display:inline; margin-right:15px;">
+                        <input type="radio" name="estado" value="true" th:checked="${jugador.estado}"> Activo
+                    </label>
+                    <label style="display:inline;">
+                        <input type="radio" name="estado" value="false" th:checked="${!jugador.estado}"> Inactivo
+                    </label>
+                </div>
+            </div>
+
+            <!-- Botones -->
+            <div class="actions">
+                <button type="submit" class="btn">💾 Guardar Cambios</button>
+                <a th:href="@{/jugadores}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

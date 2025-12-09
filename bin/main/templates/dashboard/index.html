@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - TejoBar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+        }
+
+        .header {
+            background: #667eea;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card h3 {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .menu {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu h2 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .menu-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .menu-link {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #333;
+            transition: background 0.3s;
+        }
+
+        .menu-link:hover {
+            background: #e9ecef;
+        }
+
+        .btn-logout {
+            background: #dc3545;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>🏆 TejoBar - Dashboard</h1>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn-logout">Cerrar Sesión</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <div class="stats">
+            <div class="stat-card">
+                <h3>Total Productos</h3>
+                <div class="number" th:text="${totalProductos}">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Jugadores</h3>
+                <div class="number" th:text="${totalJugadores}">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Equipos</h3>
+                <div class="number" th:text="${totalEquipos}">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Partidos</h3>
+                <div class="number" th:text="${totalPartidos}">0</div>
+            </div>
+        </div>
+
+        <div class="menu">
+            <h2>Menú Principal</h2>
+            <div class="menu-links">
+                <a th:href="@{/perfil}" class="menu-link">👤 Mi Perfil</a>
+                <a th:href="@{/productos}" class="menu-link">📦 Productos</a>
+                <a th:href="@{/jugadores}" class="menu-link">👥 Jugadores</a>
+                <a th:href="@{/equipos}" class="menu-link">⚽ Equipos</a>
+                <a th:href="@{/partidos}" class="menu-link">🏆 Partidos</a>
+                <a th:href="@{/torneos}" class="menu-link">🎯 Torneos</a>
+                <a th:href="@{/canchas}" class="menu-link">🏟️ Canchas</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

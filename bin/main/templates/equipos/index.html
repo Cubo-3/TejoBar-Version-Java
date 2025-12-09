@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="layout/main :: head"></head>
+
+<body>
+    <nav th:replace="layout/main :: nav"></nav>
+
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Gestión de Equipos</h1>
+
+            <!-- Botón para crear equipo (Solo Capitán) -->
+            <div sec:authorize="hasRole('CAPITAN')">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crearEquipoModal">
+                    <i class="fas fa-plus"></i> Crear Equipo
+                </button>
+            </div>
+        </div>
+
+        <!-- Mensajes de éxito/error -->
+        <div th:if="${exito}" class="alert alert-success" th:text="${exito}"></div>
+        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+        <!-- Listado de Equipos -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre del Equipo</th>
+                                        <th>Capitán</th>
+                                        <th>Jugadores</th>
+                                        <th>Cupos Disponibles</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="equipo : ${equipos}">
+                                        <td th:text="${equipo.nombreEquipo}"></td>
+                                        <td th:text="${equipo.capitan != null ? equipo.capitan.nombre : 'Sin Capitán'}">
+                                        </td>
+                                        <td th:text="${equipo.jugadores != null ? equipo.jugadores.size() : 0}">
+                                        </td>
+                                        <td th:text="${equipo.cuposDisponibles}"></td>
+                                        <td>
+                                            <!-- Botón Unirse (Solo Jugador y si hay cupos) -->
+                                            <div sec:authorize="hasRole('JUGADOR')">
+                                                <form th:action="@{/equipos/{id}/unirse(id=${equipo.idEquipo})}"
+                                                    method="post" th:if="${equipo.cuposDisponibles > 0}">
+                                                    <button type="submit" class="btn btn-sm btn-outline-success">
+                                                        Unirse
+                                                    </button>
+                                                </form>
+                                                <span th:if="${equipo.cuposDisponibles == 0}"
+                                                    class="text-muted small">Lleno</span>
+                                            </div>
+                                            <div sec:authorize="hasRole('ADMIN')">
+                                                <span class="text-muted small">Ver detalles</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Crear Equipo (Solo Capitán) -->
+    <div sec:authorize="hasRole('CAPITAN')" class="modal fade" id="crearEquipoModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="/equipos/crear" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Registrar Nuevo Equipo</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="nombreEquipo" class="form-label">Nombre del Equipo</label>
+                            <input type="text" class="form-control" id="nombreEquipo" name="nombreEquipo" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Crear Equipo</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="layout/main :: footer"></footer>
+</body>
+
+</html>

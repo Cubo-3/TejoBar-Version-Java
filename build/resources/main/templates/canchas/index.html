@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canchas - TejoBar</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #fdf6e3;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .header-bar {
+            background: #5d4037;
+            color: #d7ccc8;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary {
+            background-color: #8d6e63 !important;
+            border-color: #8d6e63 !important;
+            color: #fff !important;
+        }
+        
+        .btn-primary:hover {
+            background-color: #a1887f !important;
+            border-color: #a1887f !important;
+        }
+        
+        .btn-outline-light {
+            border-color: #8d6e63 !important;
+            color: #d7ccc8 !important;
+        }
+        
+        .btn-outline-light:hover {
+            background-color: #8d6e63 !important;
+            color: #fff !important;
+        }
+        
+        .table-hover tbody tr:hover {
+            background-color: #f5e6d3 !important;
+            color: #5d4037 !important;
+        }
+        
+        .table-light {
+            background-color: #5d4037 !important;
+            color: #d7ccc8 !important;
+        }
+        
+        .table-light th {
+            background-color: #5d4037 !important;
+            color: #d7ccc8 !important;
+            border-color: #8d6e63 !important;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="header-bar d-flex justify-content-between align-items-center">
+        <h3 class="m-0">🏟️ Canchas</h3>
+        <a th:href="@{/dashboard}" class="btn btn-outline-light btn-sm">
+            <i class="fas fa-arrow-left"></i> Volver al Dashboard
+        </a>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Estado</th>
+                                <th>Disponibilidad</th>
+                                <th sec:authorize="hasRole('ADMIN')">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="cancha : ${canchas}">
+                                <td th:text="${cancha.idCancha}"></td>
+                                <td>
+                                    <span th:text="${cancha.estado}"
+                                        th:class="${'badge ' + (cancha.estado.name() == 'ACTIVAS' ? 'bg-success' : (cancha.estado.name() == 'MANTENIMIENTO' ? 'bg-warning' : (cancha.estado.name() == 'NO_ACTIVA' ? 'bg-danger' : 'bg-secondary')))}">
+                                    </span>
+                                </td>
+                                <td th:text="${cancha.disponibilidad}"></td>
+                                <td sec:authorize="hasRole('ADMIN')">
+                                    <form th:action="@{/canchas/{id}/estado(id=${cancha.idCancha})}" method="post"
+                                        class="d-flex gap-2 align-items-center">
+                                        <select name="nuevoEstado" class="form-select form-select-sm"
+                                            style="width: auto;">
+                                            <option value="ACTIVAS" th:selected="${cancha.estado.name() == 'ACTIVAS'}">
+                                                Activa</option>
+                                            <option value="MANTENIMIENTO"
+                                                th:selected="${cancha.estado.name() == 'MANTENIMIENTO'}">Mantenimiento
+                                            </option>
+                                            <option value="PENDIENTE"
+                                                th:selected="${cancha.estado.name() == 'PENDIENTE'}">Pendiente</option>
+                                            <option value="NO_ACTIVA"
+                                                th:selected="${cancha.estado.name() == 'NO_ACTIVA'}">No Activa</option>
+                                        </select>
+                                        <button type="submit" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-save"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

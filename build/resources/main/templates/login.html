@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iniciar Sesión - TejoBar</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/newstyle.css}"/>
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap" rel="stylesheet" />
+  <style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-image: url('/img/fondo.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        color: #333;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      text-decoration: none;
+      color: #ffa500;
+    }
+
+    nav ul.menu-top {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav ul.menu-top li a {
+      color: #ffa500;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.2s ease;
+    }
+
+    nav ul.menu-top li a:hover {
+      color: #ffcc00;
+    }
+
+    .login-container {
+      backdrop-filter: blur(4px);
+      padding: 20px;
+      border-radius: 20px;
+    }
+
+    .login-box {
+      background: linear-gradient(to bottom, #ffa500, #131313, #141414);
+      padding: 40px;
+      border-radius: 20px;
+      width: 320px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+      background-color: white;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 36px;
+      color: #ffa500;
+    }
+
+    h2 {
+      color: white;
+      margin-bottom: 30px;
+      font-weight: bold;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .input-group i {
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      transform: translateY(-50%);
+      color: #ccc;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 10px 10px 10px 35px;
+      border: none;
+      border-bottom: 1px solid white;
+      background: transparent;
+      color: white;
+      outline: none;
+    }
+
+    .input-group input::placeholder {
+      color: #eee;
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 12px;
+      background-color: white;
+      color: #6c63ff;
+      font-weight: bold;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-login:hover {
+      background-color: #ddd;
+    }
+
+    .forgot {
+      display: block;
+      margin-top: 20px;
+      color: white;
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    .forgot:hover {
+      text-decoration: underline;
+    }
+
+    .error-msg {
+      color: #ffdddd;
+      background-color: #b30000;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .success-msg {
+      color: #ddffdd;
+      background-color: #00b300;
+      padding: 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+<header>
+    <a th:href="@{/}" class="logo">TejoBar</a>
+    <nav>
+        <ul class="menu-top">
+            <li><a th:href="@{/}">🏠Inicio</a></li>
+            <li><a th:href="@{/torneos}">🥇Torneos</a></li>
+            <li><a th:href="@{/productos}">🍻Comida y Bebida</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="login-container">
+    <div class="login-box">
+        <div class="avatar">
+            <i class="fas fa-user"></i>
+        </div>
+        <h2>INICIAR SESIÓN</h2>
+
+        <div th:if="${param.error}" class="error-msg">
+            Credenciales incorrectas. Por favor intenta de nuevo.
+        </div>
+
+        <div th:if="${param.exito}" class="success-msg">
+            Registro exitoso. Por favor inicia sesión.
+        </div>
+
+        <form th:action="@{/login}" method="post">
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" name="username" placeholder="Correo electrónico" required>
+            </div>
+
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" name="password" placeholder="Contraseña" required>
+            </div>
+
+            <button type="submit" class="btn-login">Iniciar Sesión</button>
+            <a th:href="@{/registro}" class="forgot">¿No tienes cuenta? Regístrate</a>
+        </form>
+    </div>
+</div>
+</body>
+</html>

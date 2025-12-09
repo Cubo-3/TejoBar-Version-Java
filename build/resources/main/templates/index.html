@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TejoBar Puente Aranda</title>
+  <link rel="stylesheet" th:href="@{/css/newstyle.css}"/>
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap" rel="stylesheet" />
+  <script th:src="@{/js/newjs.js}"></script>
+</head>
+
+<body>
+  <header>
+    <a th:href="@{/}" class="logo">TejoBar</a>
+    <nav>
+      <ul class="menu-top">
+        <li><a th:href="@{/}">🏠Inicio</a></li>
+        <li><a th:href="@{/torneos}">🥇Torneos</a></li>
+        <li><a th:href="@{/productos}">🍻Comida y Bebida</a></li>
+        <li sec:authorize="isAuthenticated()">
+          <a th:href="@{/dashboard}">📊Dashboard</a>
+        </li>
+        <li sec:authorize="isAuthenticated()">
+          <form method="POST" th:action="@{/logout}" style="display: inline;">
+            <button type="submit" style="border: none; background: none; color: inherit; text-decoration: none; cursor: pointer; font-weight: bold;">
+              🚪Cerrar Sesión
+            </button>
+          </form>
+        </li>
+        <li sec:authorize="!isAuthenticated()">
+          <a th:href="@{/login}">🔓Iniciar Sesión</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <div id="loader" style="display: none;">
+    <div class="spinner"></div>
+  </div>
+
+<section class="hero oculto">
+  <div class="hero-bg hero-bg1"></div>
+  <div class="hero-bg hero-bg2"></div>
+  <h1>Bienvenido a TejoBar</h1>
+  <p>El mejor lugar en Puente Aranda para disfrutar del tejo, cerveza fría y comida típica colombiana.</p>
+</section>
+
+  <section id="partidos" class="section reveal">
+    <h2>Partidos de Tejo</h2>
+    <p>¡Inscríbete con tus amigos y gana premios!</p>
+    
+    <div style="max-width: 1200px; margin: 2rem auto; padding: 0 20px;">
+      <!-- Estadísticas -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 3rem;">
+        <div style="background: rgba(255, 255, 255, 0.1); padding: 1.5rem; border-radius: 12px; text-align: center; border: 2px solid rgba(255, 255, 255, 0.2);">
+          <div style="font-size: 2.5rem; font-weight: bold; margin-bottom: 0.5rem;" th:text="${totalTorneos}">0</div>
+          <div style="font-size: 1rem; opacity: 0.9;">Torneos Activos</div>
+        </div>
+        <div style="background: rgba(255, 255, 255, 0.1); padding: 1.5rem; border-radius: 12px; text-align: center; border: 2px solid rgba(255, 255, 255, 0.2);">
+          <div style="font-size: 2.5rem; font-weight: bold; margin-bottom: 0.5rem;" th:text="${totalPartidos}">0</div>
+          <div style="font-size: 1rem; opacity: 0.9;">Partidos Programados</div>
+        </div>
+        <div style="background: rgba(255, 255, 255, 0.1); padding: 1.5rem; border-radius: 12px; text-align: center; border: 2px solid rgba(255, 255, 255, 0.2);">
+          <div style="font-size: 2.5rem; font-weight: bold; margin-bottom: 0.5rem;" th:text="${torneosVigentes != null ? torneosVigentes.size() : 0}">0</div>
+          <div style="font-size: 1rem; opacity: 0.9;">Torneos Vigentes</div>
+        </div>
+      </div>
+      
+      <!-- Torneos Vigentes -->
+      <div th:if="${torneosVigentes != null and !torneosVigentes.isEmpty()}">
+        <h3 style="text-align: center; margin-bottom: 2rem; font-size: 1.8rem;">🏆 Torneos Vigentes</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+          <div th:each="torneo : ${torneosVigentes}" 
+               style="background: rgba(255, 255, 255, 0.15); padding: 1.5rem; border-radius: 12px; border: 2px solid rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px);">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+              <div>
+                <h4 style="margin: 0 0 0.5rem 0; font-size: 1.3rem;" 
+                    th:text="${torneo.equipo1 != null and torneo.equipo2 != null ? torneo.equipo1.nombreEquipo + ' vs ' + torneo.equipo2.nombreEquipo : 'Torneo'}">
+                  Equipo 1 vs Equipo 2
+                </h4>
+                <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;" 
+                   th:text="${torneo.fecha != null ? #temporals.format(torneo.fecha, 'dd/MM/yyyy HH:mm') : 'Fecha por confirmar'}">
+                  Fecha
+                </p>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 1rem;">
+              <span style="background: rgba(255, 255, 255, 0.2); padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem;"
+                    th:if="${torneo.cancha != null}"
+                    th:text="'🏟️ Cancha ' + ${torneo.cancha.idCancha}">Cancha</span>
+              <a th:href="@{/torneos}" 
+                 style="background: rgba(255, 255, 255, 0.3); color: inherit; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; font-weight: bold; transition: all 0.3s; display: inline-block; margin-top: 0.5rem;"
+                 onmouseover="this.style.background='rgba(255, 255, 255, 0.4)'; this.style.transform='scale(1.05)'"
+                 onmouseout="this.style.background='rgba(255, 255, 255, 0.3)'; this.style.transform='scale(1)'">
+                Ver Detalles →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Mensaje si no hay torneos -->
+      <div th:if="${torneosVigentes == null or torneosVigentes.isEmpty()}" 
+           style="text-align: center; padding: 3rem; background: rgba(255, 255, 255, 0.1); border-radius: 12px; border: 2px dashed rgba(255, 255, 255, 0.3);">
+        <div style="font-size: 3rem; margin-bottom: 1rem;">🏆</div>
+        <h3 style="margin-bottom: 1rem;">¡Próximamente!</h3>
+        <p style="opacity: 0.9; margin-bottom: 1.5rem;">Estamos organizando los próximos torneos. ¡Mantente atento!</p>
+        <a th:href="@{/torneos}" 
+           style="background: rgba(255, 255, 255, 0.3); color: inherit; padding: 0.75rem 2rem; border-radius: 6px; text-decoration: none; font-weight: bold; display: inline-block; transition: all 0.3s;"
+           onmouseover="this.style.background='rgba(255, 255, 255, 0.4)'; this.style.transform='scale(1.05)'"
+           onmouseout="this.style.background='rgba(255, 255, 255, 0.3)'; this.style.transform='scale(1)'">
+          Ver Todos los Torneos
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="menu" class="section1 reveal">
+    <h2>Comida y Bebida</h2>
+    <div class="grid">
+
+    <a th:href="@{/productos}" class="card">
+      <div class="card-content">
+        <h3>Cerveza</h3>
+        <p>Variedades Frias, Locales y Nacionales </p>
+      </div>
+      <div class="card-image" style="background-image: url('/img/productos/cerveza.jpg');"></div>
+    </a>
+
+    <a th:href="@{/productos}" class="card">
+      <div class="card-content">
+        <h3>Gallina Criolla</h3>
+        <p>Variedades Frias, Locales y Nacionales </p>
+      </div>
+      <div class="card-image" style="background-image: url('/img/productos/caldo.jpg');"></div>
+    </a>
+
+    <a th:href="@{/productos}" class="card">
+      <div class="card-content">
+        <h3>Picada</h3>
+        <p>Variedades Frias, Locales y Nacionales </p>
+      </div>
+      <div class="card-image" style="background-image: url('/img/productos/picada.jpg');"></div>
+    </a>
+
+    <a th:href="@{/productos}" class="card">
+      <div class="card-content">
+        <h3>Snacks</h3>
+        <p>Variedades Frias, Locales y Nacionales </p>
+      </div>
+      <div class="card-image" style="background-image: url('/img/productos/snacks.jpg');"></div>
+    </a>
+    </div>
+  </section>
+
+<section id="reservas" class="section reveal">
+  <h2>inscríbete en un partido 🏆  </h2>
+  <p>únete al próximo partido con tu equipo. ¡Es rápido y fácil!</p>
+  <a th:href="@{/registro}" class="boton" sec:authorize="!isAuthenticated()">Registrate</a>
+  <a th:href="@{/dashboard}" class="boton" sec:authorize="isAuthenticated()">Ir al Dashboard</a>
+</section>
+
+  <section id="contacto" class="section contacto reveal">
+    <h2>Contáctanos</h2>
+    <p>📍 Puente Aranda, Bogotá<br>📞 123 456 7890</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 TejoBar. Todos los derechos reservados.</p>
+  </footer>
+
+<button id="toggle-btn" onclick="toggleMode()">☀️</button>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
