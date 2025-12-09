@@ -4,30 +4,38 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
 import lombok.EqualsAndHashCode;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
+/**
+ * Partido representa un enfrentamiento entre dos equipos.
+ * Mapea a la tabla 'torneo' que contiene equipo1 y equipo2.
+ */
 @Data
 @Entity
-@Table(name = "partido")
+@Table(name = "torneo")
 public class Partido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idPartido")
     private Integer idPartido;
 
-    private LocalDate fecha;
-    private String hora;
-    private String capitan;
-    
+    private LocalDateTime fecha;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "equipo1")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Equipo equipo1;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "equipo2")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Equipo equipo2;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cancha")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Cancha cancha;
-
-    @Enumerated(EnumType.STRING)
-    private EstadoPartido estado;
-
-    public enum EstadoPartido {
-        Pendiente, Confirmada, Cancelada
-    }
 }

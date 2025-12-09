@@ -66,20 +66,20 @@
         </div>
       </div>
       
-      <!-- Torneos Vigentes -->
+      <!-- Torneos/Reservas Vigentes -->
       <div th:if="${torneosVigentes != null and !torneosVigentes.isEmpty()}">
-        <h3 style="text-align: center; margin-bottom: 2rem; font-size: 1.8rem;">🏆 Torneos Vigentes</h3>
+        <h3 style="text-align: center; margin-bottom: 2rem; font-size: 1.8rem;">🏆 Reservas e Inscripciones</h3>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
           <div th:each="torneo : ${torneosVigentes}" 
                style="background: rgba(255, 255, 255, 0.15); padding: 1.5rem; border-radius: 12px; border: 2px solid rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px);">
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
               <div>
                 <h4 style="margin: 0 0 0.5rem 0; font-size: 1.3rem;" 
-                    th:text="${torneo.equipo1 != null and torneo.equipo2 != null ? torneo.equipo1.nombreEquipo + ' vs ' + torneo.equipo2.nombreEquipo : 'Torneo'}">
-                  Equipo 1 vs Equipo 2
+                    th:text="${torneo.capitan != null and torneo.capitan != '' ? 'Capitán: ' + torneo.capitan : 'Reserva'}">
+                  Reserva
                 </h4>
                 <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;" 
-                   th:text="${torneo.fecha != null ? #temporals.format(torneo.fecha, 'dd/MM/yyyy HH:mm') : 'Fecha por confirmar'}">
+                   th:text="${torneo.fecha != null ? (#temporals.format(torneo.fecha, 'dd/MM/yyyy') + (torneo.hora != null ? ' - ' + torneo.hora : '')) : 'Fecha por confirmar'}">
                   Fecha
                 </p>
               </div>
@@ -88,6 +88,9 @@
               <span style="background: rgba(255, 255, 255, 0.2); padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem;"
                     th:if="${torneo.cancha != null}"
                     th:text="'🏟️ Cancha ' + ${torneo.cancha.idCancha}">Cancha</span>
+              <span style="background: rgba(255, 255, 255, 0.2); padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem;"
+                    th:if="${torneo.estado != null}"
+                    th:text="${torneo.estado.name()}">Estado</span>
               <a th:href="@{/torneos}" 
                  style="background: rgba(255, 255, 255, 0.3); color: inherit; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; font-weight: bold; transition: all 0.3s; display: inline-block; margin-top: 0.5rem;"
                  onmouseover="this.style.background='rgba(255, 255, 255, 0.4)'; this.style.transform='scale(1.05)'"

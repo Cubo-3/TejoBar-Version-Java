@@ -2,28 +2,37 @@ package com.tejobar.tejo_bar.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import java.time.LocalDateTime;
+import lombok.ToString;
+import lombok.EqualsAndHashCode;
+import java.time.LocalDate;
 
+/**
+ * Torneo representa una reserva/inscripción para jugar.
+ * Mapea a la tabla 'partido' que contiene fecha, hora, capitan y estado.
+ */
 @Data
 @Entity
-@Table(name = "torneo")
+@Table(name = "partido")
 public class Torneo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idPartido") // Mantener nombre de columna de BD pero usar nombre correcto en código
+    @Column(name = "idPartido")
     private Integer idTorneo;
 
-    private LocalDateTime fecha;
-
-    @ManyToOne
-    @JoinColumn(name = "equipo1")
-    private Equipo equipo1;
-
-    @ManyToOne
-    @JoinColumn(name = "equipo2")
-    private Equipo equipo2;
-
-    @ManyToOne
+    private LocalDate fecha;
+    private String hora;
+    private String capitan;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cancha")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Cancha cancha;
+
+    @Enumerated(EnumType.STRING)
+    private EstadoTorneo estado;
+
+    public enum EstadoTorneo {
+        Pendiente, Confirmada, Cancelada
+    }
 }

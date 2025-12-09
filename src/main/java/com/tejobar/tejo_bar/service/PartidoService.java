@@ -1,12 +1,11 @@
 package com.tejobar.tejo_bar.service;
 
 import com.tejobar.tejo_bar.model.Partido;
-import com.tejobar.tejo_bar.model.Partido.EstadoPartido;
 import com.tejobar.tejo_bar.repository.PartidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,30 +31,19 @@ public class PartidoService {
         partidoRepository.deleteById(id);
     }
 
-    public List<Partido> findByEstado(EstadoPartido estado) {
-        return partidoRepository.findByEstado(estado);
-    }
-
-    public List<Partido> findByFecha(LocalDate fecha) {
+    public List<Partido> findByFecha(LocalDateTime fecha) {
         return partidoRepository.findByFecha(fecha);
     }
 
+    public List<Partido> findByEquipo(Integer idEquipo) {
+        List<Partido> partidos1 = partidoRepository.findByEquipo1_IdEquipo(idEquipo);
+        List<Partido> partidos2 = partidoRepository.findByEquipo2_IdEquipo(idEquipo);
+        partidos1.addAll(partidos2);
+        return partidos1;
+    }
+
     public List<Partido> findByCancha(Integer idCancha) {
-        return partidoRepository.findByCancha(idCancha);
-    }
-
-    public void confirmarPartido(Integer id) {
-        Partido partido = partidoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Partido no encontrado"));
-        partido.setEstado(EstadoPartido.Confirmada);
-        partidoRepository.save(partido);
-    }
-
-    public void cancelarPartido(Integer id) {
-        Partido partido = partidoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Partido no encontrado"));
-        partido.setEstado(EstadoPartido.Cancelada);
-        partidoRepository.save(partido);
+        return partidoRepository.findByCancha_IdCancha(idCancha);
     }
 }
 

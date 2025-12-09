@@ -1,46 +1,131 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Torneos - TejoBar</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', sans-serif; background: #fdf6e3; }
-        .header { background: #5d4037; color: #d7ccc8; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
-        .container { max-width: 1200px; margin: 2rem auto; padding: 0 2rem; }
-        table { width: 100%; background: white; border-collapse: collapse; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #ddd; }
-        th { background: #5d4037; color: #d7ccc8; }
+        body {
+            background-color: #fdf6e3;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .header-bar {
+            background: #5d4037;
+            color: #d7ccc8;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary {
+            background-color: #8d6e63 !important;
+            border-color: #8d6e63 !important;
+            color: #fff !important;
+        }
+        
+        .btn-primary:hover {
+            background-color: #a1887f !important;
+            border-color: #a1887f !important;
+        }
+        
+        .btn-outline-light {
+            border-color: #8d6e63 !important;
+            color: #d7ccc8 !important;
+        }
+        
+        .btn-outline-light:hover {
+            background-color: #8d6e63 !important;
+            color: #fff !important;
+        }
+        
+        .table-hover tbody tr:hover {
+            background-color: #f5e6d3 !important;
+            color: #5d4037 !important;
+        }
+        
+        .table-light {
+            background-color: #5d4037 !important;
+            color: #d7ccc8 !important;
+        }
+        
+        .table-light th {
+            background-color: #5d4037 !important;
+            color: #d7ccc8 !important;
+            border-color: #8d6e63 !important;
+        }
+
+        .badge {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>🎯 Torneos</h1>
-        <a th:href="@{/dashboard}" style="color: #d7ccc8; text-decoration: none;">← Volver al Dashboard</a>
+    <nav class="header-bar d-flex justify-content-between align-items-center">
+        <h3 class="m-0">🏆 Torneos - Reservas e Inscripciones</h3>
+        <a th:href="@{/dashboard}" class="btn btn-outline-light btn-sm">
+            <i class="fas fa-arrow-left"></i> Volver al Dashboard
+        </a>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div th:if="${torneos == null or torneos.isEmpty()}" class="alert alert-info text-center">
+                    <i class="fas fa-info-circle"></i> No hay torneos/reservas registrados en este momento.
+                </div>
+                <div th:if="${torneos != null and !torneos.isEmpty()}" class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Capitán</th>
+                                <th>Cancha</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="torneo : ${torneos}">
+                                <td th:text="${torneo.idTorneo}"></td>
+                                <td>
+                                    <strong th:text="${torneo.fecha != null ? #temporals.format(torneo.fecha, 'dd/MM/yyyy') : 'N/A'}"></strong>
+                                </td>
+                                <td>
+                                    <span th:text="${torneo.hora != null ? torneo.hora : 'N/A'}"></span>
+                                </td>
+                                <td>
+                                    <span th:if="${torneo.capitan != null and torneo.capitan != ''}" class="fw-bold" th:text="${torneo.capitan}"></span>
+                                    <span th:if="${torneo.capitan == null or torneo.capitan == ''}" class="text-muted fst-italic">Sin capitán asignado</span>
+                                </td>
+                                <td>
+                                    <span th:if="${torneo.cancha != null}" class="badge bg-info text-dark" th:text="'Cancha ' + ${torneo.cancha.idCancha}"></span>
+                                    <span th:if="${torneo.cancha == null}" class="text-muted">N/A</span>
+                                </td>
+                                <td>
+                                    <span th:if="${torneo.estado != null}" 
+                                          th:text="${torneo.estado.name()}"
+                                          th:class="${'badge ' + (torneo.estado.name() == 'Confirmada' ? 'bg-success' : (torneo.estado.name() == 'Pendiente' ? 'bg-warning' : 'bg-danger'))}">
+                                    </span>
+                                    <span th:if="${torneo.estado == null}" class="badge bg-secondary">N/A</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="container">
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Fecha</th>
-                    <th>Equipo 1</th>
-                    <th>Equipo 2</th>
-                    <th>Cancha</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="torneo : ${torneos}">
-                    <td th:text="${torneo.idTorneo}"></td>
-                    <td th:text="${torneo.fecha != null ? #temporals.format(torneo.fecha, 'dd/MM/yyyy HH:mm') : 'N/A'}"></td>
-                    <td th:text="${torneo.equipo1 != null ? torneo.equipo1.nombreEquipo : 'N/A'}"></td>
-                    <td th:text="${torneo.equipo2 != null ? torneo.equipo2.nombreEquipo : 'N/A'}"></td>
-                    <td th:text="${torneo.cancha != null ? 'Cancha ' + torneo.cancha.idCancha : 'N/A'}"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
 
