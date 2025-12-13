@@ -220,6 +220,44 @@
                 </div>
             </div>
 
+            <!-- Reportes y Documentación -->
+            <div class="row" sec:authorize="hasRole('ADMIN')">
+                <div class="col-lg-6 mb-4">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Generar Reportes</h6>
+                        </div>
+                        <div class="card-body">
+                            <p>Descarga un reporte general en formato PDF con la información actual de productos, jugadores y equipos.</p>
+                            <a th:href="@{/reports/general}" class="btn btn-primary btn-icon-split">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-download"></i>
+                                </span>
+                                <span class="text">Descargar Reporte General (PDF)</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 mb-4">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Documentación del Dashboard</h6>
+                        </div>
+                        <div class="card-body">
+                            <p>Este panel de control permite administrar los recursos del sistema TejoBar:</p>
+                            <ul>
+                                <li><strong>Productos:</strong> Gestión del inventario de bebidas y alimentos.</li>
+                                <li><strong>Jugadores:</strong> Administración de usuarios registrados.</li>
+                                <li><strong>Equipos:</strong> Control de los equipos formados para torneos.</li>
+                                <li><strong>Partidos:</strong> Seguimiento de los encuentros programados.</li>
+                            </ul>
+                            <p class="mb-0">Utilice el menú lateral para navegar a cada sección específica.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Vista para jugadores y capitanes -->
             <div sec:authorize="hasAnyRole('JUGADOR', 'CAPITAN')">
                 <div class="card shadow mb-4">

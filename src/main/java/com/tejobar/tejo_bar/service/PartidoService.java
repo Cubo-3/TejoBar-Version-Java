@@ -24,6 +24,25 @@ public class PartidoService {
     }
 
     public Partido save(Partido partido) {
+        // Validar que no haya otro partido en la misma cancha a la misma hora
+        if (partidoRepository.existsByCanchaAndFecha(partido.getCancha(), partido.getFecha())) {
+            throw new IllegalArgumentException("Ya existe un partido programado en esta cancha a la misma hora.");
+        }
+
+        // Validar que el equipo 1 no tenga otro partido a la misma hora
+        if (partidoRepository.existsByEquipo1AndFecha(partido.getEquipo1(), partido.getFecha()) ||
+                partidoRepository.existsByEquipo2AndFecha(partido.getEquipo1(), partido.getFecha())) {
+            throw new IllegalArgumentException("El equipo " + partido.getEquipo1().getNombreEquipo()
+                    + " ya tiene un partido programado a esta hora.");
+        }
+
+        // Validar que el equipo 2 no tenga otro partido a la misma hora
+        if (partidoRepository.existsByEquipo1AndFecha(partido.getEquipo2(), partido.getFecha()) ||
+                partidoRepository.existsByEquipo2AndFecha(partido.getEquipo2(), partido.getFecha())) {
+            throw new IllegalArgumentException("El equipo " + partido.getEquipo2().getNombreEquipo()
+                    + " ya tiene un partido programado a esta hora.");
+        }
+
         return partidoRepository.save(partido);
     }
 
@@ -46,5 +65,3 @@ public class PartidoService {
         return partidoRepository.findByCancha_IdCancha(idCancha);
     }
 }
-
-
